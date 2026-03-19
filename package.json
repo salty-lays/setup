@@ -2,9 +2,9 @@
   "name": "text-receiver-server",
   "version": "1.0.0",
   "description": "Simple server to receive plain text via POST",
-  "main": "server.cjs",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.cjs"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.19.2"
