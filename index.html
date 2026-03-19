@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Text Viewer</title>
+    <style>
+        body {
+            background: #111;
+            color: #0f0;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        #box {
+            border: 1px solid #0f0;
+            padding: 15px;
+            min-height: 200px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h2></h2>
+
+<script>
+async function fetchData() {
+    try {
+        const res = await fetch('/data');
+        const text = await res.text();
+        document.getElementById('box').textContent = text;
+    } catch (e) {}
+}
+
+// Refresh every second
+setInterval(fetchData, 1000);
+fetchData();
+</script>
+
+</body>
+</html>
