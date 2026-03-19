@@ -1,18 +1,15 @@
 const express = require('express');
-const path = require('path');
 
 const app = express();
-const PORT = 3000;
+app.use(express.text());
 
-// Serve static files from current directory
-app.use(express.static(__dirname));
-
-// Route for index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.post('/', (req, res) => {
+    console.log('Received text:', req.body);
+    res.send('Text received');
 });
 
-// Start server
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
