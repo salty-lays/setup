@@ -4,7 +4,6 @@ const path = require('path');
 const app = express();
 app.use(express.text());
 
-// Store latest received text
 let latestText = "No data received yet";
 
 // Serve HTML
@@ -12,7 +11,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Endpoint to get latest text
+// Endpoint to fetch latest data
 app.get('/data', (req, res) => {
     res.send(latestText);
 });
@@ -22,7 +21,7 @@ app.post('/', (req, res) => {
     latestText = req.body;
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Running on port ${PORT}`);
 });
