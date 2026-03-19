@@ -20,7 +20,10 @@
 </head>
 <body>
 
-<h2></h2>
+<h2>Received Data:</h2>
+
+<!-- ✅ THIS WAS MISSING -->
+<div id="box">Waiting...</div>
 
 <script>
 async function fetchData() {
@@ -28,7 +31,9 @@ async function fetchData() {
         const res = await fetch('/data');
         const text = await res.text();
         document.getElementById('box').textContent = text;
-    } catch (e) {}
+    } catch (e) {
+        document.getElementById('box').textContent = "Error";
+    }
 }
 
 // Refresh every second

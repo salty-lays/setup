@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Simple server to receive plain text via POST",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },

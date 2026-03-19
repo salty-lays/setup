@@ -1,34 +1,29 @@
 import express from "express";
-import path from 'path';
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 app.use(express.text());
 
-// Safe path fix
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let latestText = "No data received yet";
 
-// Serve HTML
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Send latest text
-app.get('/data', (req, res) => {
-    res.set('Cache-Control', 'no-store');
-    res.send(latestText);
+app.get("/data", (req, res) => {
+  res.set("Cache-Control", "no-store");
+  res.send(latestText);
 });
 
-// Receive POST
-app.post('/', (req, res) => {
-    latestText = req.body || "Empty";
-    
-    // VERY IMPORTANT
-    res.send("OK");
+app.post("/", (req, res) => {
+  latestText = req.body || "Empty";
+  console.log("Received:", latestText);
+  res.send("OK");
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log("Running..."));
